@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta-name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NADI AI - Health Simulation</title>
+  <style>
+    :root {
+      --gold: #ffcc00;
+      --dark: #101010;
+      --gray: #222;
+    }
+    body {
+      background: var(--dark);
+      color: white;
+      font-family: "Poppins", sans-serif;
+      text-align: center;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      color: var(--gold);
+      margin-bottom: 10px;
+    }
+    button {
+      background: var(--gold);
+      color: black;
+      font-weight: 600;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: 0.3s;
+    }
+    button:hover {
+      background: #fff15c;
+    }
+    .report {
+      background: var(--gray);
+      padding: 20px;
+      margin: 20px auto;
+      border-radius: 15px;
+      max-width: 500px;
+      box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+    }
+    .highlight {
+      color: var(--gold);
+      font-weight: bold;
+    }
+    .row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+    }
+    .card {
+      background: #1c1c1c;
+      padding: 12px;
+      border-radius: 10px;
+      min-width: 140px;
+      text-align: center;
+      flex-grow: 1;
+    }
+    .conditions {
+      margin-top: 8px;
+      background: #1c1c1c;
+      border-radius: 10px;
+      padding: 10px;
+    }
+  </style>
+</head>
+<body>
+
+<h1>🧠 NADI AI - Health Simulation</h1>
+<button onclick="startScan()">Start Simulation / தொடங்கு</button>
+
+<div id="reportSmall" class="report">
+  <h3 style="color:var(--gold)">Quick View / விரைவு காட்சி</h3>
+  <p>Gender: <span id="qGender" class="highlight">--</span></p>
+  <p>BMP Level: <span id="qBmp" class="highlight">-- mmol/L</span></p>
+  <p>Blood Group: <span id="qBlood" class="highlight">--</span></p>
+  <p>Pregnancy: <span id="qPreg" class="highlight">--</span></p>
+  <p>Pulse: <span id="qPulse" class="highlight">-- bpm</span></p>
+  <p>Pressure: <span id="qPress" class="highlight">--/-- mmHg</span></p>
+  <p>Stress: <span id="qStress" class="highlight">--</span></p>
+  <p>Diabetes Risk: <span id="qDiab" class="highlight">--%</span></p>
+  <p>Heart Attack Risk: <span id="qHeart" class="highlight">--%</span></p>
+
+  <!-- NEW ADDED QUICK VIEW -->
+  <p>SpO₂: <span id="qSpo2" class="highlight">--%</span></p>
+  <p>Hemoglobin: <span id="qHemo" class="highlight">-- g/dL</span></p>
+  <p>WBC: <span id="qWbc" class="highlight">-- /µL</span></p>
+  <p>RBC: <span id="qRbc" class="highlight">-- million/µL</span></p>
+  <p>Blood Cancer Risk: <span id="qCancer" class="highlight">--%</span></p>
+</div>
+
+<div id="reportFull" class="report" style="display:none">
+  <div id="primaryConditionBox" style="display:none">
+    <b>Primary Condition (Simulation):</b> <span id="primaryCondText">--</span>
+  </div>
+
+  <h2>AI Health Report / ஐஏ சுகாதார அறிக்கை</h2>
+
+  <div class="row">
+    <div class="card">Gender: <span id="genderVal" class="highlight">--</span></div>
+    <div class="card">BMP Level: <span id="bmpVal" class="highlight">-- mmol/L</span></div>
+    <div class="card">Blood Group: <span id="bloodVal" class="highlight">--</span></div>
+    <div class="card">Pregnancy: <span id="pregVal" class="highlight">--</span></div>
+  </div>
+
+  <div class="row" style="margin-top:12px">
+    <div class="card">Pulse Rate: <span id="pulseVal" class="highlight">-- bpm</span></div>
+    <div class="card">Pressure: <span id="pressVal" class="highlight">--/-- mmHg</span></div>
+    <div class="card">Stress Level: <span id="stressVal" class="highlight">--</span></div>
+  </div>
+
+  <div class="row" style="margin-top:12px">
+    <div class="card">Diabetes Risk: <span id="diabVal" class="highlight">--%</span></div>
+    <div class="card">Heart Attack Risk: <span id="heartVal" class="highlight">--%</span></div>
+  </div>
+
+  <!-- NEW ADDED FULL REPORT CARDS -->
+  <div class="row" style="margin-top:12px">
+    <div class="card">SpO₂: <span id="spo2Val" class="highlight">--%</span></div>
+    <div class="card">Hemoglobin: <span id="hemoVal" class="highlight">-- g/dL</span></div>
+  </div>
+
+  <div class="row" style="margin-top:12px">
+    <div class="card">WBC Count: <span id="wbcVal" class="highlight">-- /µL</span></div>
+    <div class="card">RBC Count: <span id="rbcVal" class="highlight">-- million/µL</span></div>
+  </div>
+
+  <div class="row" style="margin-top:12px">
+    <div class="card">Blood Cancer Risk: <span id="cancerVal" class="highlight">--%</span></div>
+  </div>
+
+  <p id="aiObs">AI Observation: <span class="highlight">--</span></p>
+  <p id="advice">Suggestion: <span class="highlight">--</span></p>
+
+  <h3 style="margin:6px 0;color:var(--gold)">Possible Conditions (Simulation)</h3>
+  <div class="conditions" id="conditionsList"></div>
+</div>
+
+<script>
+function startScan() {
+  document.getElementById('reportFull').style.display = "block";
+
+  let gender = prompt("Enter gender (male / female) or leave blank:");
+
+  if (gender) {
+      gender = gender.trim().toLowerCase();
+      if (gender !== "male" && gender !== "female") {
+          alert("Invalid gender. Ignoring gender filter.");
+          gender = null;
+      }
+  }
+
+  let pregnancy = null;
+  if (gender === "female") {
+      let wantPreg = prompt("Need pregnancy info? (yes / no)");
+      if (wantPreg) {
+          wantPreg = wantPreg.trim().toLowerCase();
+          if (wantPreg === "yes") pregnancy = true;
+          else pregnancy = false;
+      }
+  }
+
+  const preg = pregnancy ? (Math.random() < 0.5 ? 'Positive / நேர்மறை' : 'Negative / எதிர்மறை') : null;
+
+  // EXISTING VALUES
+  const bmp = (Math.random() * 40 + 60).toFixed(1);
+  const bloodGroups = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];
+  const blood = bloodGroups[Math.floor(Math.random() * bloodGroups.length)];
+  const pulse = Math.floor(Math.random() * 40 + 60);
+  const stressLevels = ['Low', 'Medium', 'High'];
+  const stress = stressLevels[Math.floor(Math.random() * stressLevels.length)];
+  const pressSys = Math.floor(Math.random() * 40 + 90);
+  const pressDia = Math.floor(Math.random() * 30 + 60);
+  const diabRisk = Math.floor(Math.random() * 60 + 10);
+  const heartRisk = Math.min(98, Math.max(3, Math.round(diabRisk * 0.85 + Math.random() * 10)));
+
+  // NEW FAKE RANDOM MEDICAL VALUES
+  const spo2 = Math.floor(Math.random() * 6 + 94); // 94–100
+  const hemoglobin = (Math.random() * 4 + 11).toFixed(1); // 11–15 g/dL
+  const wbc = Math.floor(Math.random() * 6000 + 4000); // 4000–10000
+  const rbc = (Math.random() * 2 + 4).toFixed(2); // 4–6 million/µL
+  const cancerRisk = Math.floor(Math.random() * 20); // 0–20%
+
+  const conditions = ['Normal', 'Mild Hypertension', 'Anxiety', 'High Stress', 'Good Health'];
+  const condition = conditions[Math.floor(Math.random() * conditions.length)];
+  const observation = condition === 'Good Health'
+    ? 'All vitals are stable.'
+    : `Detected signs of ${condition.toLowerCase()}.`;
+
+  const suggestion = condition === 'Good Health'
+    ? 'Maintain a balanced diet and regular exercise.'
+    : 'Consult a physician for further evaluation.';
+
+  // QUICK VIEW UPDATE
+  document.getElementById('qGender').textContent = gender ?? "--";
+  document.getElementById('qPreg').textContent = preg ?? "--";
+  document.getElementById('qBmp').textContent = bmp + " mmol/L";
+  document.getElementById('qBlood').textContent = blood;
+  document.getElementById('qPulse').textContent = pulse + " bpm";
+  document.getElementById('qPress').textContent = pressSys + "/" + pressDia + " mmHg";
+  document.getElementById('qStress').textContent = stress;
+  document.getElementById('qDiab').textContent = diabRisk + "%";
+  document.getElementById('qHeart').textContent = heartRisk + "%";
+
+  // NEW QUICK VIEW
+  document.getElementById('qSpo2').textContent = spo2 + "%";
+  document.getElementById('qHemo').textContent = hemoglobin + " g/dL";
+  document.getElementById('qWbc').textContent = wbc + " /µL";
+  document.getElementById('qRbc').textContent = rbc + " million/µL";
+  document.getElementById('qCancer').textContent = cancerRisk + "%";
+
+  // FULL REPORT UPDATE
+  document.getElementById('genderVal').textContent = gender ?? "--";
+  document.getElementById('pregVal').textContent = preg ?? "--";
+  document.getElementById('bmpVal').textContent = bmp + " mmol/L";
+  document.getElementById('bloodVal').textContent = blood;
+  document.getElementById('pulseVal').textContent = pulse + " bpm";
+  document.getElementById('pressVal').textContent = pressSys + "/" + pressDia + " mmHg";
+  document.getElementById('stressVal').textContent = stress;
+  document.getElementById('diabVal').textContent = diabRisk + "%";
+  document.getElementById('heartVal').textContent = heartRisk + "%";
+
+  // NEW FULL REPORT
+  document.getElementById('spo2Val').textContent = spo2 + "%";
+  document.getElementById('hemoVal').textContent = hemoglobin + " g/dL";
+  document.getElementById('wbcVal').textContent = wbc + " /µL";
+  document.getElementById('rbcVal').textContent = rbc + " million/µL";
+  document.getElementById('cancerVal').textContent = cancerRisk + "%";
+
+  document.getElementById('aiObs').innerHTML =
+    `AI Observation: <span class="highlight">${observation}</span>`;
+  document.getElementById('advice').innerHTML =
+    `Suggestion: <span class="highlight">${suggestion}</span>`;
+  document.getElementById('conditionsList').innerHTML = `<b>${condition}</b>`;
+  document.getElementById('primaryCondText').textContent = condition;
+  document.getElementById('primaryConditionBox').style.display = "block";
+
+  // SPEECH SYSTEM
+  let speakText = "";
+
+  if (gender) speakText += `Gender ${gender}. `;
+  if (preg) speakText += `Pregnancy ${preg}. `;
+
+  speakText += `BMP ${bmp}. Blood group ${blood}. Pulse ${pulse}. Pressure ${pressSys}/${pressDia}. Stress ${stress}. Diabetes risk ${diabRisk} percent. Heart attack risk ${heartRisk} percent. SpO2 ${spo2} percent. Hemoglobin ${hemoglobin}. W B C count ${wbc}. R B C count ${rbc}. Blood cancer risk ${cancerRisk} percent. Observation ${observation}. Suggestion ${suggestion}.`;
+
+  const utter = new SpeechSynthesisUtterance(speakText);
+  utter.rate = 1;
+  speechSynthesis.speak(utter);
+}
+</script>
+
+</body>
+</html>
