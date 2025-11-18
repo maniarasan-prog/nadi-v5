@@ -6,13 +6,25 @@
   <title>NADI AI - Health Simulation</title>
 
   <style>
+    /* 🌿⚕️✨ AYURVEDIC + MEDICAL + TECH NEON COLOR SYSTEM */
     :root {
-      --gold: #ffcc00;
-      --dark: #101010;
-      --gray: #222;
+      --ayurveda-green: #7ED957;
+      --tech-blue: #00D4FF;
+      --medical-white: #F3F7FA;
+
+      --sand-gold: #C9A86A;
+      --forest-green: #0B3D2E;
+      --cool-grey: #A5B4C7;
+
+      --neon-cyan: #2FFFFF;
+      --neon-green: #66FF99;
+      --ayurvedic-orange: #FF914D;
+
+      --dark-tech: #0A0F14;
+      --dark-ayurvedic: #061D14;
     }
 
-    /* ✔ Background Image (blur + dark overlay) */
+    /* ✔ Modern Digital Background */
     body {
       margin: 0;
       padding: 20px;
@@ -26,7 +38,7 @@
       overflow-x: hidden;
     }
 
-    /* ✔ Dark overlay for readability */
+    /* ✔ Dark blur overlay for readability */
     body::before {
       content: "";
       position: fixed;
@@ -34,12 +46,12 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0,0,0,0.55);
-      backdrop-filter: blur(8px);
+      background: rgba(0,0,0,0.65);
+      backdrop-filter: blur(10px);
       z-index: -1;
     }
 
-    /* ✔ Fixed Logo (top-left) */
+    /* ✔ LOGO Glow Updated */
     #logoBox {
       position: fixed;
       top: 20px;
@@ -48,257 +60,87 @@
     }
 
     #logoBox img {
-      height: 90px; /* MEDIUM SIZE */
-      filter: drop-shadow(0 0 12px #fbd87f);
+      height: 90px;
+      filter: drop-shadow(0 0 15px var(--neon-green));
       border-radius: 10px;
     }
 
+    /* ✔ Heading upgrade */
     h1 {
-      color: var(--gold);
+      color: var(--tech-blue);
+      text-shadow: 0 0 15px var(--neon-cyan);
       margin-bottom: 10px;
     }
 
+    /* ✔ Futuristic Button */
     button {
-      background: var(--gold);
+      background: var(--ayurveda-green);
       color: black;
       font-weight: 600;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 12px;
+      padding: 12px 25px;
+      border: 2px solid var(--tech-blue);
+      border-radius: 15px;
       cursor: pointer;
-      font-size: 16px;
+      font-size: 17px;
+      box-shadow: 0 0 12px var(--neon-green);
       transition: 0.3s;
     }
 
     button:hover {
-      background: #fff15c;
+      background: var(--neon-green);
+      box-shadow: 0 0 18px var(--tech-blue);
     }
 
-    /* ✔ FIXED: REPORT TEXT WHITE */
+    /* ✔ AI Report Box revamp */
     .report {
-      background: rgba(20,20,20,0.8);
-      padding: 20px;
+      background: rgba(10,20,15,0.7);
+      padding: 22px;
       margin: 20px auto;
-      border-radius: 15px;
-      max-width: 500px;
-      box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
-      color: #ffffff !important; /* WHITE TEXT FIX */
+      border-radius: 18px;
+      max-width: 550px;
+      box-shadow: 0 0 22px rgba(0,255,200,0.25);
+      color: var(--medical-white) !important;
+      border: 1px solid rgba(0,255,200,0.2);
     }
 
     .highlight {
-      color: var(--gold);
+      color: var(--ayurveda-green);
       font-weight: bold;
+      text-shadow: 0 0 10px var(--neon-green);
     }
 
+    /* ✔ Row and Card Upgrade */
     .row {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 10px;
+      gap: 14px;
     }
 
     .card {
-      background: #1c1c1c;
-      padding: 12px;
-      border-radius: 10px;
-      min-width: 140px;
+      background: #0c1512;
+      padding: 14px;
+      border-radius: 14px;
+      min-width: 150px;
       text-align: center;
+      color: var(--medical-white);
       flex-grow: 1;
-      color: white;
+
+      border: 1px solid rgba(0,255,200,0.25);
+      box-shadow: 0 0 12px rgba(0,255,200,0.15);
     }
 
+    /* ✔ Possible Conditions */
     .conditions {
-      margin-top: 8px;
-      background: #1c1c1c;
-      border-radius: 10px;
-      padding: 10px;
-      color: white;
+      margin-top: 10px;
+      background: #0c1512;
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 14px;
+      padding: 12px;
+      color: var(--medical-white);
+      box-shadow: 0 0 12px rgba(255,255,255,0.12);
     }
   </style>
 </head>
 
-<body>
-
-<!-- ✔ LOGO (fixed top-left) -->
-<div id="logoBox">
-  <img src="a-modern-logo-design-combining-ancient-a_L6HfQseATbG1Ij6lpPCs_Q_V7oY3ICuSb6ky1zsHaNp5A.jpeg">
-</div>
-
-<h1>🧠 NADI AI - Health Simulation</h1>
-<button onclick="startScan()">Start Simulation / தொடங்கு</button>
-
-<!-- QUICK VIEW REPORT -->
-<div id="reportSmall" class="report">
-  <h3 style="color:var(--gold)">Quick View / விரைவு காட்சி</h3>
-  <p>Gender: <span id="qGender" class="highlight">--</span></p>
-  <p>BMP Level: <span id="qBmp" class="highlight">-- mmol/L</span></p>
-  <p>Blood Group: <span id="qBlood" class="highlight">--</span></p>
-  <p>Pregnancy: <span id="qPreg" class="highlight">--</span></p>
-  <p>Pulse: <span id="qPulse" class="highlight">-- bpm</span></p>
-  <p>Pressure: <span id="qPress" class="highlight">--/-- mmHg</span></p>
-  <p>Stress: <span id="qStress" class="highlight">--</span></p>
-  <p>Diabetes Risk: <span id="qDiab" class="highlight">--%</span></p>
-  <p>Heart Attack Risk: <span id="qHeart" class="highlight">--%</span></p>
-  <p>SpO₂: <span id="qSpo2" class="highlight">--%</span></p>
-  <p>Hemoglobin: <span id="qHemo" class="highlight">-- g/dL</span></p>
-  <p>WBC: <span id="qWbc" class="highlight">-- /µL</span></p>
-  <p>RBC: <span id="qRbc" class="highlight">-- million/µL</span></p>
-  <p>Blood Cancer Risk: <span id="qCancer" class="highlight">--%</span></p>
-</div>
-
-<!-- FULL REPORT -->
-<div id="reportFull" class="report" style="display:none">
-  <div id="primaryConditionBox" style="display:none">
-    <b>Primary Condition (Simulation):</b> <span id="primaryCondText">--</span>
-  </div>
-
-  <h2 style="color:white">AI Health Report / ஐஏ சுகாதார அறிக்கை</h2>
-
-  <div class="row">
-    <div class="card">Gender: <span id="genderVal" class="highlight">--</span></div>
-    <div class="card">BMP Level: <span id="bmpVal" class="highlight">-- mmol/L</span></div>
-    <div class="card">Blood Group: <span id="bloodVal" class="highlight">--</span></div>
-    <div class="card">Pregnancy: <span id="pregVal" class="highlight">--</span></div>
-  </div>
-
-  <div class="row" style="margin-top:12px">
-    <div class="card">Pulse Rate: <span id="pulseVal" class="highlight">-- bpm</span></div>
-    <div class="card">Pressure: <span id="pressVal" class="highlight">--/-- mmHg</span></div>
-    <div class="card">Stress Level: <span id="stressVal" class="highlight">--</span></div>
-  </div>
-
-  <div class="row" style="margin-top:12px">
-    <div class="card">Diabetes Risk: <span id="diabVal" class="highlight">--%</span></div>
-    <div class="card">Heart Attack Risk: <span id="heartVal" class="highlight">--%</span></div>
-  </div>
-
-  <div class="row" style="margin-top:12px">
-    <div class="card">SpO₂: <span id="spo2Val" class="highlight">--%</span></div>
-    <div class="card">Hemoglobin: <span id="hemoVal" class="highlight">-- g/dL</span></div>
-  </div>
-
-  <div class="row" style="margin-top:12px">
-    <div class="card">WBC Count: <span id="wbcVal" class="highlight">-- /µL</span></div>
-    <div class="card">RBC Count: <span id="rbcVal" class="highlight">-- million/µL</span></div>
-  </div>
-
-  <div class="row" style="margin-top:12px">
-    <div class="card">Blood Cancer Risk: <span id="cancerVal" class="highlight">--%</span></div>
-  </div>
-
-  <p id="aiObs" style="color:white">AI Observation: <span class="highlight">--</span></p>
-  <p id="advice" style="color:white">Suggestion: <span class="highlight">--</span></p>
-
-  <h3 style="margin:6px 0;color:var(--gold)">Possible Conditions (Simulation)</h3>
-  <div class="conditions" id="conditionsList"></div>
-</div>
-
-<script>
-/* YOUR EXISTING JS — COMPLETELY UNCHANGED */
-function startScan() {
-  document.getElementById('reportFull').style.display = "block";
-
-  let gender = prompt("Enter gender (male / female) or leave blank:");
-
-  if (gender) {
-      gender = gender.trim().toLowerCase();
-      if (gender !== "male" && gender !== "female") {
-          alert("Invalid gender. Ignoring gender filter.");
-          gender = null;
-      }
-  }
-
-  let pregnancy = null;
-  if (gender === "female") {
-      let wantPreg = prompt("Need pregnancy info? (yes / no)");
-      if (wantPreg) {
-          wantPreg = wantPreg.trim().toLowerCase();
-          if (wantPreg === "yes") pregnancy = true;
-          else pregnancy = false;
-      }
-  }
-
-  const preg = pregnancy ? (Math.random() < 0.5 ? 'Positive / நேர்மறை' : 'Negative / எதிர்மறை') : null;
-
-  const bmp = (Math.random() * 40 + 60).toFixed(1);
-  const bloodGroups = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];
-  const blood = bloodGroups[Math.floor(Math.random() * bloodGroups.length)];
-  const pulse = Math.floor(Math.random() * 40 + 60);
-  const stressLevels = ['Low', 'Medium', 'High'];
-  const stress = stressLevels[Math.floor(Math.random() * stressLevels.length)];
-  const pressSys = Math.floor(Math.random() * 40 + 90);
-  const pressDia = Math.floor(Math.random() * 30 + 60);
-  const diabRisk = Math.floor(Math.random() * 60 + 10);
-  const heartRisk = Math.min(98, Math.max(3, Math.round(diabRisk * 0.85 + Math.random() * 10)));
-
-  const spo2 = Math.floor(Math.random() * 6 + 94);
-  const hemoglobin = (Math.random() * 4 + 11).toFixed(1);
-  const wbc = Math.floor(Math.random() * 6000 + 4000);
-  const rbc = (Math.random() * 2 + 4).toFixed(2);
-  const cancerRisk = Math.floor(Math.random() * 20);
-
-  const conditions = ['Normal', 'Mild Hypertension', 'Anxiety', 'High Stress', 'Good Health'];
-  const condition = conditions[Math.floor(Math.random() * conditions.length)];
-  const observation = condition === 'Good Health'
-    ? 'All vitals are stable.'
-    : `Detected signs of ${condition.toLowerCase()}.`;
-
-  const suggestion = condition === 'Good Health'
-    ? 'Maintain a balanced diet and regular exercise.'
-    : 'Consult a physician for further evaluation.';
-
-  // QUICK VIEW UPDATE
-  qGender.textContent = gender ?? "--";
-  qPreg.textContent = preg ?? "--";
-  qBmp.textContent = bmp + " mmol/L";
-  qBlood.textContent = blood;
-  qPulse.textContent = pulse + " bpm";
-  qPress.textContent = pressSys + "/" + pressDia + " mmHg";
-  qStress.textContent = stress;
-  qDiab.textContent = diabRisk + "%";
-  qHeart.textContent = heartRisk + "%";
-
-  qSpo2.textContent = spo2 + "%";
-  qHemo.textContent = hemoglobin + " g/dL";
-  qWbc.textContent = wbc + " /µL";
-  qRbc.textContent = rbc + " million/µL";
-  qCancer.textContent = cancerRisk + "%";
-
-  genderVal.textContent = gender ?? "--";
-  pregVal.textContent = preg ?? "--";
-  bmpVal.textContent = bmp + " mmol/L";
-  bloodVal.textContent = blood;
-  pulseVal.textContent = pulse + " bpm";
-  pressVal.textContent = pressSys + "/" + pressDia + " mmHg";
-  stressVal.textContent = stress;
-  diabVal.textContent = diabRisk + "%";
-  heartVal.textContent = heartRisk + "%";
-
-  spo2Val.textContent = spo2 + "%";
-  hemoVal.textContent = hemoglobin + " g/dL";
-  wbcVal.textContent = wbc + " /µL";
-  rbcVal.textContent = rbc + " million/µL";
-  cancerVal.textContent = cancerRisk + "%";
-
-  aiObs.innerHTML = `AI Observation: <span class="highlight">${observation}</span>`;
-  advice.innerHTML = `Suggestion: <span class="highlight">${suggestion}</span>`;
-  conditionsList.innerHTML = `<b>${condition}</b>`;
-  primaryCondText.textContent = condition;
-  primaryConditionBox.style.display = "block";
-
-  let speakText = "";
-
-  if (gender) speakText += `Gender ${gender}. `;
-  if (preg) speakText += `Pregnancy ${preg}. `;
-
-  speakText += `BMP ${bmp}. Blood group ${blood}. Pulse ${pulse}. Pressure ${pressSys}/${pressDia}. Stress ${stress}. Diabetes risk ${diabRisk} percent. Heart attack risk ${heartRisk} percent. SpO2 ${spo2} percent. Hemoglobin ${hemoglobin}. W B C count ${wbc}. R B C count ${rbc}. Blood cancer risk ${cancerRisk} percent. Observation ${observation}. Suggestion ${suggestion}.`;
-
-  const utter = new SpeechSynthesisUtterance(speakText);
-  utter.rate = 1;
-  speechSynthesis.speak(utter);
-}
-</script>
-
-</body>
-</html>
-
+  
