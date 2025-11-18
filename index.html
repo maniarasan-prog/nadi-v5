@@ -61,29 +61,67 @@
 function generateReport() {
 
     // AGE INPUT
-    let age = parseInt(prompt("Please enter the user's age:"));
+    let age = parseInt(prompt("Enter user's age:"));
     if (isNaN(age) || age < 1) {
-        alert("Invalid age! Enter a valid number.");
+        alert("Invalid age!");
         return;
     }
 
-    // 🔥 AGE-BASED RECOMMENDED RANGES
-    let ranges = {};
-
-    if (age <= 12) {
-        ranges = { pulse: "70–120 BPM", spo2: "95–100%", hemoglobin: "11–13 g/dL", wbc: "5000–15000", rbc: "4.0–5.2 million/µL" };
-    } 
-    else if (age <= 18) {
-        ranges = { pulse: "60–100 BPM", spo2: "95–100%", hemoglobin: "12–16", wbc: "4500–11000", rbc: "4.5–5.9" };
-    } 
-    else if (age <= 60) {
-        ranges = { pulse: "60–90 BPM", spo2: "95–100%", hemoglobin: "13–17", wbc: "4500–11000", rbc: "4.7–6.1" };
-    } 
-    else {
-        ranges = { pulse: "60–100 BPM", spo2: "92–98%", hemoglobin: "12–16", wbc: "4500–11000", rbc: "4.2–5.8" };
+    // GENDER INPUT
+    let gender = prompt("Enter gender (male/female):").toLowerCase();
+    if (gender !== "male" && gender !== "female") {
+        alert("Please enter 'male' or 'female'.");
+        return;
     }
 
-    // RANDOM MEDICAL VALUES
+    // 🔥 AGE + GENDER BASED NORMAL RANGES
+    let ranges = {};
+
+    // CHILDREN (no gender difference)
+    if (age <= 12) {
+        ranges = {
+            pulse: "70–120 BPM",
+            spo2: "95–100%",
+            hemoglobin: "11–13 g/dL",
+            wbc: "5000–15000",
+            rbc: "4.0–5.2 million/µL"
+        };
+    }
+
+    // TEENS
+    else if (age <= 18) {
+        ranges = {
+            pulse: "60–100 BPM",
+            spo2: "95–100%",
+            hemoglobin: gender === "male" ? "13–16 g/dL" : "12–15 g/dL",
+            wbc: "4500–11000",
+            rbc: gender === "male" ? "4.7–5.9 million/µL" : "4.2–5.4 million/µL"
+        };
+    }
+
+    // ADULTS
+    else if (age <= 60) {
+        ranges = {
+            pulse: "60–90 BPM",
+            spo2: "95–100%",
+            hemoglobin: gender === "male" ? "13.5–17.5 g/dL" : "12.0–15.5 g/dL",
+            wbc: "4500–11000",
+            rbc: gender === "male" ? "4.7–6.1 million/µL" : "4.2–5.4 million/µL"
+        };
+    }
+
+    // SENIORS
+    else {
+        ranges = {
+            pulse: "60–100 BPM",
+            spo2: "92–98%",
+            hemoglobin: gender === "male" ? "13–17 g/dL" : "11.5–15 g/dL",
+            wbc: "4500–11000",
+            rbc: gender === "male" ? "4.5–5.8 million/µL" : "4.0–5.3 million/µL"
+        };
+    }
+
+    // RANDOM VALUES (fake output)
     let pulse = Math.floor(Math.random() * (100 - 60) + 60);
     let spo2 = Math.floor(Math.random() * (99 - 92) + 92);
     let hemoglobin = (Math.random() * (17 - 12) + 12).toFixed(1);
@@ -92,33 +130,34 @@ function generateReport() {
 
     let cancerRisk = ["Low", "Very Low", "Moderate"][Math.floor(Math.random() * 3)];
 
-    // 🔥 AYURVEDIC INTERPRETATION LOGIC
+    // 🔥 AYURVEDIC DOSHA LOGIC
     let dosha = "";
     let description = "";
 
     if (pulse > 90 && spo2 < 95) {
         dosha = "Pitta Dominance 🔥";
-        description = "Body heat is high, digestion is strong but irritability and inflammation may increase. Keep yourself cool and hydrated.";
+        description = "High internal heat, strong digestion, risk of irritability and inflammation.";
     }
     else if (pulse < 70 && hemoglobin < 13) {
         dosha = "Kapha Dominance 🌿";
-        description = "Low pulse and heavy blood markers indicate slow metabolism, fatigue, congestion. Light exercise and warm foods recommended.";
+        description = "Slow metabolism, heaviness, fatigue. Warm foods and light exercise recommended.";
     }
     else if (wbc > 9000 && rbc < 5) {
         dosha = "Vata Dominance 🌬️";
-        description = "Irregular internal activity indicates dryness, anxiety, sleep imbalance. Grounding foods and oil massage help.";
+        description = "Irregular activity, dryness, anxiety—needs grounding and warm oil massage.";
     }
     else {
         let randomDosha = ["Vata 🌬️", "Pitta 🔥", "Kapha 🌿"];
         dosha = randomDosha[Math.floor(Math.random() * 3)];
-        description = "Your dosha is balanced but slight fluctuations are seen. Maintain routine, proper diet, and hydration.";
+        description = "Doshas are balanced with slight fluctuations. Maintain routine and hydration.";
     }
 
-    // OUTPUT
+    // OUTPUT UI
     document.getElementById("output").innerHTML = `
         <h2>Generated Test Results</h2>
 
         <p><b>Age:</b> ${age}</p>
+        <p><b>Gender:</b> ${gender.toUpperCase()}</p>
 
         <p><b>Pulse Rate:</b> ${pulse} BPM</p>
         <p><b>Blood Oxygen (SpO2):</b> ${spo2}%</p>
@@ -129,7 +168,7 @@ function generateReport() {
 
         <br>
 
-        <h3 class="vibrant">Recommended Values (Based on Age Group)</h3>
+        <h3 class="vibrant">Recommended Values (Age + Gender Based)</h3>
         <p class="vibrant"><b>Pulse:</b> ${ranges.pulse}</p>
         <p class="vibrant"><b>SpO2:</b> ${ranges.spo2}</p>
         <p class="vibrant"><b>Hemoglobin:</b> ${ranges.hemoglobin}</p>
