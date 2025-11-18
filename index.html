@@ -39,7 +39,7 @@
       z-index: -1;
     }
 
-    /* ✔ Fixed Logo (top-left, glowing) */
+    /* ✔ Fixed Logo (top-left) */
     #logoBox {
       position: fixed;
       top: 20px;
@@ -74,6 +74,7 @@
       background: #fff15c;
     }
 
+    /* ✔ FIXED: REPORT TEXT WHITE */
     .report {
       background: rgba(20,20,20,0.8);
       padding: 20px;
@@ -81,6 +82,7 @@
       border-radius: 15px;
       max-width: 500px;
       box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+      color: #ffffff !important; /* WHITE TEXT FIX */
     }
 
     .highlight {
@@ -102,6 +104,7 @@
       min-width: 140px;
       text-align: center;
       flex-grow: 1;
+      color: white;
     }
 
     .conditions {
@@ -109,9 +112,8 @@
       background: #1c1c1c;
       border-radius: 10px;
       padding: 10px;
+      color: white;
     }
-    .report{
-      color: #ff
   </style>
 </head>
 
@@ -125,7 +127,7 @@
 <h1>🧠 NADI AI - Health Simulation</h1>
 <button onclick="startScan()">Start Simulation / தொடங்கு</button>
 
-<!-- Your existing UI (unchanged) -->
+<!-- QUICK VIEW REPORT -->
 <div id="reportSmall" class="report">
   <h3 style="color:var(--gold)">Quick View / விரைவு காட்சி</h3>
   <p>Gender: <span id="qGender" class="highlight">--</span></p>
@@ -144,12 +146,13 @@
   <p>Blood Cancer Risk: <span id="qCancer" class="highlight">--%</span></p>
 </div>
 
+<!-- FULL REPORT -->
 <div id="reportFull" class="report" style="display:none">
   <div id="primaryConditionBox" style="display:none">
     <b>Primary Condition (Simulation):</b> <span id="primaryCondText">--</span>
   </div>
 
-  <h2>AI Health Report / ஐஏ சுகாதார அறிக்கை</h2>
+  <h2 style="color:white">AI Health Report / ஐஏ சுகாதார அறிக்கை</h2>
 
   <div class="row">
     <div class="card">Gender: <span id="genderVal" class="highlight">--</span></div>
@@ -183,15 +186,15 @@
     <div class="card">Blood Cancer Risk: <span id="cancerVal" class="highlight">--%</span></div>
   </div>
 
-  <p id="aiObs">AI Observation: <span class="highlight">--</span></p>
-  <p id="advice">Suggestion: <span class="highlight">--</span></p>
+  <p id="aiObs" style="color:white">AI Observation: <span class="highlight">--</span></p>
+  <p id="advice" style="color:white">Suggestion: <span class="highlight">--</span></p>
 
   <h3 style="margin:6px 0;color:var(--gold)">Possible Conditions (Simulation)</h3>
   <div class="conditions" id="conditionsList"></div>
 </div>
 
 <script>
-/* YOUR EXISTING JS — UNTOUCHED */
+/* YOUR EXISTING JS — COMPLETELY UNCHANGED */
 function startScan() {
   document.getElementById('reportFull').style.display = "block";
 
@@ -298,3 +301,4 @@ function startScan() {
 
 </body>
 </html>
+
