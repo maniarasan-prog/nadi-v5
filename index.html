@@ -128,6 +128,13 @@
 
       border: 1px solid rgba(0,255,200,0.25);
       box-shadow: 0 0 12px rgba(0,255,200,0.15);
+      position: relative;
+    }
+
+    .normal-range {
+      font-size: 14px;
+      color: var(--neon-green);
+      margin-top: 6px;
     }
 
     /* ✔ Possible Conditions */
@@ -140,7 +147,138 @@
       color: var(--medical-white);
       box-shadow: 0 0 12px rgba(255,255,255,0.12);
     }
+
+    /* ✔ Input Section */
+    #userInputs {
+      background: rgba(10,20,15,0.8);
+      padding: 16px;
+      border-radius: 16px;
+      max-width: 400px;
+      margin: 20px auto;
+      box-shadow: 0 0 16px rgba(0,255,200,0.2);
+      color: var(--medical-white);
+    }
+
+    #userInputs input, #userInputs select {
+      padding: 8px 12px;
+      margin: 8px 0;
+      border-radius: 8px;
+      border: 1px solid var(--cool-grey);
+      width: 100%;
+      font-size: 15px;
+    }
   </style>
 </head>
+<body>
 
-  
+  <div id="logoBox">
+    <img src="logo.png" alt="NADI AI Logo">
+  </div>
+
+  <h1>NADI AI - Health Simulation</h1>
+
+  <!-- User Inputs -->
+  <div id="userInputs">
+    <label>Age:</label>
+    <input type="number" id="ageInput" placeholder="Enter your age" min="1" max="120">
+    <label>Gender:</label>
+    <select id="genderInput">
+      <option value="male">Male</option>
+      <option value="female">Female</option>
+    </select>
+    <button onclick="generateReport()">Generate Report</button>
+  </div>
+
+  <!-- AI Report -->
+  <div class="report">
+    <div class="row">
+      <div class="card" id="pulseCard">
+        Pulse: <span id="pulseValue">--</span> bpm
+        <div class="normal-range" id="pulseNormal">Normal: --</div>
+      </div>
+      <div class="card" id="bpCard">
+        Blood Pressure: <span id="bpValue">--</span>
+        <div class="normal-range" id="bpNormal">Normal: --</div>
+      </div>
+      <div class="card" id="spo2Card">
+        SpO₂: <span id="spo2Value">--</span> %
+        <div class="normal-range" id="spo2Normal">Normal: --</div>
+      </div>
+      <div class="card" id="hemoglobinCard">
+        Hemoglobin: <span id="hbValue">--</span> g/dL
+        <div class="normal-range" id="hbNormal">Normal: --</div>
+      </div>
+      <div class="card" id="wbcCard">
+        WBC: <span id="wbcValue">--</span> /µL
+        <div class="normal-range" id="wbcNormal">Normal: --</div>
+      </div>
+      <div class="card" id="rbcCard">
+        RBC: <span id="rbcValue">--</span> /µL
+        <div class="normal-range" id="rbcNormal">Normal: --</div>
+      </div>
+    </div>
+    <div class="conditions" id="conditionsBox">
+      Possible Conditions: <span id="conditionsText">--</span>
+    </div>
+  </div>
+
+  <script>
+    const recommendedValues = {
+      male: [
+        { ageRange: [13,18], pulse: "60-100", bp: "110/70 - 120/80", spo2: "95-100", hb: "13.0-17.0", wbc: "4500-11000", rbc: "4.5-5.9" },
+        { ageRange: [19,30], pulse: "60-95", bp: "115/75 - 125/85", spo2: "95-100", hb: "13.5-17.5", wbc: "4500-11000", rbc: "4.7-6.1" },
+        { ageRange: [31,50], pulse: "60-100", bp: "120/80 - 130/85", spo2: "95-100", hb: "13.5-17.5", wbc: "4500-11000", rbc: "4.7-6.1" },
+        { ageRange: [51,120], pulse: "65-110", bp: "130/85 - 140/90", spo2: "95-100", hb: "12.5-16.5", wbc: "4500-11000", rbc: "4.5-6.0" },
+      ],
+      female: [
+        { ageRange: [13,18], pulse: "60-100", bp: "110/70 - 120/80", spo2: "95-100", hb: "12.0-16.0", wbc: "4500-11000", rbc: "4.2-5.4" },
+        { ageRange: [19,30], pulse: "60-100", bp: "110/70 - 120/80", spo2: "95-100", hb: "12.0-16.0", wbc: "4500-11000", rbc: "4.2-5.4" },
+        { ageRange: [31,50], pulse: "65-105", bp: "115/75 - 125/85", spo2: "95-100", hb: "12.0-16.0", wbc: "4500-11000", rbc: "4.2-5.4" },
+        { ageRange: [51,120], pulse: "70-115", bp: "120/80 - 130/85", spo2: "95-100", hb: "11.5-15.5", wbc: "4500-11000", rbc: "4.0-5.2" },
+      ]
+    };
+
+    function getRecommended(age, gender) {
+      return recommendedValues[gender].find(range => age >= range.ageRange[0] && age <= range.ageRange[1]);
+    }
+
+    function generateReport() {
+      const age = parseInt(document.getElementById('ageInput').value);
+      const gender = document.getElementById('genderInput').value;
+
+      if(!age || age < 1 || age > 120) {
+        alert("Please enter a valid age");
+        return;
+      }
+
+      const rec = getRecommended(age, gender);
+
+      // Random sample values for demonstration
+      const pulse = Math.floor(Math.random() * 40) + 60;
+      const bp = `${Math.floor(Math.random()*20)+110}/${Math.floor(Math.random()*10)+70}`;
+      const spo2 = Math.floor(Math.random() * 6) + 95;
+      const hb = (Math.random() * 5 + 12).toFixed(1);
+      const wbc = Math.floor(Math.random() * 7000) + 4500;
+      const rbc = (Math.random() * 2 + 4.2).toFixed(1);
+
+      document.getElementById('pulseValue').innerText = pulse;
+      document.getElementById('bpValue').innerText = bp;
+      document.getElementById('spo2Value').innerText = spo2;
+      document.getElementById('hbValue').innerText = hb;
+      document.getElementById('wbcValue').innerText = wbc;
+      document.getElementById('rbcValue').innerText = rbc;
+
+      document.getElementById('pulseNormal').innerText = `Normal: ${rec.pulse} (${gender.charAt(0).toUpperCase()+gender.slice(1)} ${rec.ageRange[0]}–${rec.ageRange[1]})`;
+      document.getElementById('bpNormal').innerText = `Normal: ${rec.bp} (${gender.charAt(0).toUpperCase()+gender.slice(1)} ${rec.ageRange[0]}–${rec.ageRange[1]})`;
+      document.getElementById('spo2Normal').innerText = `Normal: ${rec.spo2} (${gender.charAt(0).toUpperCase()+gender.slice(1)} ${rec.ageRange[0]}–${rec.ageRange[1]})`;
+      document.getElementById('hbNormal').innerText = `Normal: ${rec.hb} (${gender.charAt(0).toUpperCase()+gender.slice(1)} ${rec.ageRange[0]}–${rec.ageRange[1]})`;
+      document.getElementById('wbcNormal').innerText = `Normal: ${rec.wbc} (${gender.charAt(0).toUpperCase()+gender.slice(1)} ${rec.ageRange[0]}–${rec.ageRange[1]})`;
+      document.getElementById('rbcNormal').innerText = `Normal: ${rec.rbc} (${gender.charAt(0).toUpperCase()+gender.slice(1)} ${rec.ageRange[0]}–${rec.ageRange[1]})`;
+
+      document.getElementById('conditionsText').innerText = "Heart health seems good. Keep monitoring regularly!";
+    }
+  </script>
+
+</body>
+</html>
+
