@@ -4,41 +4,34 @@
   <meta charset="UTF-8">
   <meta-name="viewport" content="width=device-width, initial-scale=1.0">
   <title>NADI AI - Health Simulation</title>
-
   <style>
     /* 🌿⚕️✨ AYURVEDIC + MEDICAL + TECH NEON COLOR SYSTEM */
     :root {
       --ayurveda-green: #7ED957;
       --tech-blue: #00D4FF;
       --medical-white: #F3F7FA;
-
       --sand-gold: #C9A86A;
       --forest-green: #0B3D2E;
       --cool-grey: #A5B4C7;
-
       --neon-cyan: #2FFFFF;
       --neon-green: #66FF99;
       --ayurvedic-orange: #FF914D;
-
       --dark-tech: #0A0F14;
       --dark-ayurvedic: #061D14;
     }
 
-    /* ✔ Modern Digital Background */
     body {
       margin: 0;
       padding: 20px;
       font-family: "Poppins", sans-serif;
       text-align: center;
-
+      /* placeholder background */
       background: url("a-modern-digital-illustration-showcasing_OrZOxtroQ8qPgXts95FPmQ_N-ou-fXESMmXynnkTWCX7A.jpeg") no-repeat center center fixed;
       background-size: cover;
-
       position: relative;
       overflow-x: hidden;
     }
 
-    /* ✔ Dark blur overlay for readability */
     body::before {
       content: "";
       position: fixed;
@@ -51,28 +44,27 @@
       z-index: -1;
     }
 
-    /* ✔ LOGO Glow Updated */
+    /* LOGO */
     #logoBox {
       position: fixed;
       top: 20px;
       left: 20px;
       z-index: 9999;
     }
-
     #logoBox img {
       height: 90px;
       filter: drop-shadow(0 0 15px var(--neon-green));
       border-radius: 10px;
+      /* placeholder logo */
+      content: url("a-modern-logo-design-combining-ancient-a_L6HfQseATbG1Ij6lpPCs_Q_V7oY3ICuSb6ky1zsHaNp5A.jpeg");
     }
 
-    /* ✔ Heading upgrade */
     h1 {
       color: var(--tech-blue);
       text-shadow: 0 0 15px var(--neon-cyan);
       margin-bottom: 10px;
     }
 
-    /* ✔ Futuristic Button */
     button {
       background: var(--ayurveda-green);
       color: black;
@@ -85,13 +77,11 @@
       box-shadow: 0 0 12px var(--neon-green);
       transition: 0.3s;
     }
-
     button:hover {
       background: var(--neon-green);
       box-shadow: 0 0 18px var(--tech-blue);
     }
 
-    /* ✔ AI Report Box revamp */
     .report {
       background: rgba(10,20,15,0.7);
       padding: 22px;
@@ -109,7 +99,6 @@
       text-shadow: 0 0 10px var(--neon-green);
     }
 
-    /* ✔ Row and Card Upgrade */
     .row {
       display: flex;
       flex-wrap: wrap;
@@ -125,19 +114,10 @@
       text-align: center;
       color: var(--medical-white);
       flex-grow: 1;
-
       border: 1px solid rgba(0,255,200,0.25);
       box-shadow: 0 0 12px rgba(0,255,200,0.15);
-      position: relative;
     }
 
-    .normal-range {
-      font-size: 14px;
-      color: var(--neon-green);
-      margin-top: 6px;
-    }
-
-    /* ✔ Possible Conditions */
     .conditions {
       margin-top: 10px;
       background: #0c1512;
@@ -148,137 +128,239 @@
       box-shadow: 0 0 12px rgba(255,255,255,0.12);
     }
 
-    /* ✔ Input Section */
-    #userInputs {
-      background: rgba(10,20,15,0.8);
-      padding: 16px;
-      border-radius: 16px;
-      max-width: 400px;
-      margin: 20px auto;
-      box-shadow: 0 0 16px rgba(0,255,200,0.2);
-      color: var(--medical-white);
-    }
-
-    #userInputs input, #userInputs select {
-      padding: 8px 12px;
-      margin: 8px 0;
-      border-radius: 8px;
-      border: 1px solid var(--cool-grey);
-      width: 100%;
-      font-size: 15px;
+    .normal-range {
+      font-size: 12px;
+      color: #FFD700;
+      margin-top: 4px;
+      display: block;
     }
   </style>
 </head>
+
 <body>
+<h1>🧠 NADI AI - Health Simulation</h1>
+<button onclick="startScan()">Start Simulation / தொடங்கு</button>
 
-  <div id="logoBox">
-    <img src="logo.png" alt="NADI AI Logo">
+<div id="reportSmall" class="report">
+  <h3 style="color:var(--gold)">Quick View / விரைவு காட்சி</h3>
+  <p>Gender: <span id="qGender" class="highlight">--</span></p>
+  <p>BMP Level: <span id="qBmp" class="highlight">-- mmol/L</span></p>
+  <p>Blood Group: <span id="qBlood" class="highlight">--</span></p>
+  <p>Pregnancy: <span id="qPreg" class="highlight">--</span></p>
+  <p>Pulse: <span id="qPulse" class="highlight">-- bpm</span></p>
+  <p>Pressure: <span id="qPress" class="highlight">--/-- mmHg</span></p>
+  <p>Stress: <span id="qStress" class="highlight">--</span></p>
+  <p>Diabetes Risk: <span id="qDiab" class="highlight">--%</span></p>
+  <p>Heart Attack Risk: <span id="qHeart" class="highlight">--%</span></p>
+
+  <p>SpO₂: <span id="qSpo2" class="highlight">--%</span></p>
+  <p>Hemoglobin: <span id="qHemo" class="highlight">-- g/dL</span></p>
+  <p>WBC: <span id="qWbc" class="highlight">-- /µL</span></p>
+  <p>RBC: <span id="qRbc" class="highlight">-- million/µL</span></p>
+  <p>Blood Cancer Risk: <span id="qCancer" class="highlight">--%</span></p>
+</div>
+
+<div id="reportFull" class="report" style="display:none">
+  <div id="primaryConditionBox" style="display:none">
+    <b>Primary Condition (Simulation):</b> <span id="primaryCondText">--</span>
   </div>
 
-  <h1>NADI AI - Health Simulation</h1>
+  <h2>AI Health Report / ஐஏ சுகாதார அறிக்கை</h2>
 
-  <!-- User Inputs -->
-  <div id="userInputs">
-    <label>Age:</label>
-    <input type="number" id="ageInput" placeholder="Enter your age" min="1" max="120">
-    <label>Gender:</label>
-    <select id="genderInput">
-      <option value="male">Male</option>
-      <option value="female">Female</option>
-    </select>
-    <button onclick="generateReport()">Generate Report</button>
+  <div class="row">
+    <div class="card">Gender: <span id="genderVal" class="highlight">--</span></div>
+    <div class="card">BMP Level: <span id="bmpVal" class="highlight">-- mmol/L</span></div>
+    <div class="card">Blood Group: <span id="bloodVal" class="highlight">--</span></div>
+    <div class="card">Pregnancy: <span id="pregVal" class="highlight">--</span></div>
   </div>
 
-  <!-- AI Report -->
-  <div class="report">
-    <div class="row">
-      <div class="card" id="pulseCard">
-        Pulse: <span id="pulseValue">--</span> bpm
-        <div class="normal-range" id="pulseNormal">Normal: --</div>
-      </div>
-      <div class="card" id="bpCard">
-        Blood Pressure: <span id="bpValue">--</span>
-        <div class="normal-range" id="bpNormal">Normal: --</div>
-      </div>
-      <div class="card" id="spo2Card">
-        SpO₂: <span id="spo2Value">--</span> %
-        <div class="normal-range" id="spo2Normal">Normal: --</div>
-      </div>
-      <div class="card" id="hemoglobinCard">
-        Hemoglobin: <span id="hbValue">--</span> g/dL
-        <div class="normal-range" id="hbNormal">Normal: --</div>
-      </div>
-      <div class="card" id="wbcCard">
-        WBC: <span id="wbcValue">--</span> /µL
-        <div class="normal-range" id="wbcNormal">Normal: --</div>
-      </div>
-      <div class="card" id="rbcCard">
-        RBC: <span id="rbcValue">--</span> /µL
-        <div class="normal-range" id="rbcNormal">Normal: --</div>
-      </div>
-    </div>
-    <div class="conditions" id="conditionsBox">
-      Possible Conditions: <span id="conditionsText">--</span>
-    </div>
+  <div class="row" style="margin-top:12px">
+    <div class="card">Pulse Rate: <span id="pulseVal" class="highlight">-- bpm</span></div>
+    <div class="card">Pressure: <span id="pressVal" class="highlight">--/-- mmHg</span></div>
+    <div class="card">Stress Level: <span id="stressVal" class="highlight">--</span></div>
   </div>
 
-  <script>
-    const recommendedValues = {
-      male: [
-        { ageRange: [13,18], pulse: "60-100", bp: "110/70 - 120/80", spo2: "95-100", hb: "13.0-17.0", wbc: "4500-11000", rbc: "4.5-5.9" },
-        { ageRange: [19,30], pulse: "60-95", bp: "115/75 - 125/85", spo2: "95-100", hb: "13.5-17.5", wbc: "4500-11000", rbc: "4.7-6.1" },
-        { ageRange: [31,50], pulse: "60-100", bp: "120/80 - 130/85", spo2: "95-100", hb: "13.5-17.5", wbc: "4500-11000", rbc: "4.7-6.1" },
-        { ageRange: [51,120], pulse: "65-110", bp: "130/85 - 140/90", spo2: "95-100", hb: "12.5-16.5", wbc: "4500-11000", rbc: "4.5-6.0" },
-      ],
-      female: [
-        { ageRange: [13,18], pulse: "60-100", bp: "110/70 - 120/80", spo2: "95-100", hb: "12.0-16.0", wbc: "4500-11000", rbc: "4.2-5.4" },
-        { ageRange: [19,30], pulse: "60-100", bp: "110/70 - 120/80", spo2: "95-100", hb: "12.0-16.0", wbc: "4500-11000", rbc: "4.2-5.4" },
-        { ageRange: [31,50], pulse: "65-105", bp: "115/75 - 125/85", spo2: "95-100", hb: "12.0-16.0", wbc: "4500-11000", rbc: "4.2-5.4" },
-        { ageRange: [51,120], pulse: "70-115", bp: "120/80 - 130/85", spo2: "95-100", hb: "11.5-15.5", wbc: "4500-11000", rbc: "4.0-5.2" },
-      ]
-    };
+  <div class="row" style="margin-top:12px">
+    <div class="card">Diabetes Risk: +<span id="diabVal" class="highlight">--%</span></div>
+    <div class="card">Heart Attack Risk: <span id="heartVal" class="highlight">--%</span></div>
+  </div>
 
-    function getRecommended(age, gender) {
-      return recommendedValues[gender].find(range => age >= range.ageRange[0] && age <= range.ageRange[1]);
-    }
+  <div class="row" style="margin-top:12px">
+    <div class="card">SpO₂: <span id="spo2Val" class="highlight">--%</span></div>
+    <div class="card">Hemoglobin: <span id="hemoVal" class="highlight">-- g/dL</span></div>
+  </div>
 
-    function generateReport() {
-      const age = parseInt(document.getElementById('ageInput').value);
-      const gender = document.getElementById('genderInput').value;
+  <div class="row" style="margin-top:12px">
+    <div class="card">WBC Count: <span id="wbcVal" class="highlight">-- /µL</span></div>
+    <div class="card">RBC Count: <span id="rbcVal" class="highlight">-- million/µL</span></div>
+  </div>
 
-      if(!age || age < 1 || age > 120) {
-        alert("Please enter a valid age");
-        return;
+  <div class="row" style="margin-top:12px">
+    <div class="card">Blood Cancer Risk: <span id="cancerVal" class="highlight">--%</span></div>
+  </div>
+
+  <p id="aiObs">AI Observation: <span class="highlight">--</span></p>
+  <p id="advice">Suggestion: <span class="highlight">--</span></p>
+
+  <h3 style="margin:6px 0;color:var(--gold)">Possible Conditions (Simulation)</h3>
+  <div class="conditions" id="conditionsList"></div>
+</div>
+
+<script>
+function startScan() {
+  document.getElementById('reportFull').style.display = "block";
+
+  let gender = prompt("Enter gender (male / female) or leave blank:");
+  if (gender) {
+      gender = gender.trim().toLowerCase();
+      if (gender !== "male" && gender !== "female") {
+          alert("Invalid gender. Ignoring gender filter.");
+          gender = null;
       }
+  }
 
-      const rec = getRecommended(age, gender);
+  let pregnancy = null;
+  if (gender === "female") {
+      let wantPreg = prompt("Need pregnancy info? (yes / no)");
+      if (wantPreg) {
+          wantPreg = wantPreg.trim().toLowerCase();
+          if (wantPreg === "yes") pregnancy = true;
+          else pregnancy = false;
+      }
+  }
 
-      // Random sample values for demonstration
-      const pulse = Math.floor(Math.random() * 40) + 60;
-      const bp = `${Math.floor(Math.random()*20)+110}/${Math.floor(Math.random()*10)+70}`;
-      const spo2 = Math.floor(Math.random() * 6) + 95;
-      const hb = (Math.random() * 5 + 12).toFixed(1);
-      const wbc = Math.floor(Math.random() * 7000) + 4500;
-      const rbc = (Math.random() * 2 + 4.2).toFixed(1);
+  const preg = pregnancy ? (Math.random() < 0.5 ? 'Positive / நேர்மறை' : 'Negative / எதிர்மறை') : null;
 
-      document.getElementById('pulseValue').innerText = pulse;
-      document.getElementById('bpValue').innerText = bp;
-      document.getElementById('spo2Value').innerText = spo2;
-      document.getElementById('hbValue').innerText = hb;
-      document.getElementById('wbcValue').innerText = wbc;
-      document.getElementById('rbcValue').innerText = rbc;
+  const bmp = (Math.random() * 40 + 60).toFixed(1);
+  const bloodGroups = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];
+  const blood = bloodGroups[Math.floor(Math.random() * bloodGroups.length)];
+  const pulse = Math.floor(Math.random() * 40 + 60);
+  const stressLevels = ['Low', 'Medium', 'High'];
+  const stress = stressLevels[Math.floor(Math.random() * stressLevels.length)];
+  const pressSys = Math.floor(Math.random() * 40 + 90);
+  const pressDia = Math.floor(Math.random() * 30 + 60);
+  const diabRisk = Math.floor(Math.random() * 60 + 10);
+  const heartRisk = Math.min(98, Math.max(3, Math.round(diabRisk * 0.85 + Math.random() * 10)));
+  const spo2 = Math.floor(Math.random() * 6 + 94);
+  const hemoglobin = (Math.random() * 4 + 11).toFixed(1);
+  const wbc = Math.floor(Math.random() * 6000 + 4000);
+  const rbc = (Math.random() * 2 + 4).toFixed(2);
+  const cancerRisk = Math.floor(Math.random() * 20);
+  const conditions = ['Normal', 'Mild Hypertension', 'Anxiety', 'High Stress', 'Good Health'];
+  const condition = conditions[Math.floor(Math.random() * conditions.length)];
+  const observation = condition === 'Good Health'
+    ? 'All vitals are stable.'
+    : `Detected signs of ${condition.toLowerCase()}.`;
+  const suggestion = condition === 'Good Health'
+    ? 'Maintain a balanced diet and regular exercise.'
+    : 'Consult a physician for further evaluation.';
 
-      document.getElementById('pulseNormal').innerText = `Normal: ${rec.pulse} (${gender.charAt(0).toUpperCase()+gender.slice(1)} ${rec.ageRange[0]}–${rec.ageRange[1]})`;
-      document.getElementById('bpNormal').innerText = `Normal: ${rec.bp} (${gender.charAt(0).toUpperCase()+gender.slice(1)} ${rec.ageRange[0]}–${rec.ageRange[1]})`;
-      document.getElementById('spo2Normal').innerText = `Normal: ${rec.spo2} (${gender.charAt(0).toUpperCase()+gender.slice(1)} ${rec.ageRange[0]}–${rec.ageRange[1]})`;
-      document.getElementById('hbNormal').innerText = `Normal: ${rec.hb} (${gender.charAt(0).toUpperCase()+gender.slice(1)} ${rec.ageRange[0]}–${rec.ageRange[1]})`;
-      document.getElementById('wbcNormal').innerText = `Normal: ${rec.wbc} (${gender.charAt(0).toUpperCase()+gender.slice(1)} ${rec.ageRange[0]}–${rec.ageRange[1]})`;
-      document.getElementById('rbcNormal').innerText = `Normal: ${rec.rbc} (${gender.charAt(0).toUpperCase()+gender.slice(1)} ${rec.ageRange[0]}–${rec.ageRange[1]})`;
+  document.getElementById('qGender').textContent = gender ?? "--";
+  document.getElementById('qPreg').textContent = preg ?? "--";
+  document.getElementById('qBmp').textContent = bmp + " mmol/L";
+  document.getElementById('qBlood').textContent = blood;
+  document.getElementById('qPulse').textContent = pulse + " bpm";
+  document.getElementById('qPress').textContent = pressSys + "/" + pressDia + " mmHg";
+  document.getElementById('qStress').textContent = stress;
+  document.getElementById('qDiab').textContent = diabRisk + "%";
+  document.getElementById('qHeart').textContent = heartRisk + "%";
+  document.getElementById('qSpo2').textContent = spo2 + "%";
+  document.getElementById('qHemo').textContent = hemoglobin + " g/dL";
+  document.getElementById('qWbc').textContent = wbc + " /µL";
+  document.getElementById('qRbc').textContent = rbc + " million/µL";
+  document.getElementById('qCancer').textContent = cancerRisk + "%";
 
-      document.getElementById('conditionsText').innerText = "Heart health seems good. Keep monitoring regularly!";
+  document.getElementById('genderVal').textContent = gender ?? "--";
+  document.getElementById('pregVal').textContent = preg ?? "--";
+  document.getElementById('bmpVal').textContent = bmp + " mmol/L";
+  document.getElementById('bloodVal').textContent = blood;
+  document.getElementById('pulseVal').textContent = pulse + " bpm";
+  document.getElementById('pressVal').textContent = pressSys + "/" + pressDia + " mmHg";
+  document.getElementById('stressVal').textContent = stress;
+  document.getElementById('diabVal').textContent = diabRisk + "%";
+  document.getElementById('heartVal').textContent = heartRisk + "%";
+  document.getElementById('spo2Val').textContent = spo2 + "%";
+  document.getElementById('hemoVal').textContent = hemoglobin + " g/dL";
+  document.getElementById('wbcVal').textContent = wbc + " /µL";
+  document.getElementById('rbcVal').textContent = rbc + " million/µL";
+  document.getElementById('cancerVal').textContent = cancerRisk + "%";
+
+  document.getElementById('aiObs').innerHTML = `AI Observation: <span class="highlight">${observation}</span>`;
+  document.getElementById('advice').innerHTML = `Suggestion: <span class="highlight">${suggestion}</span>`;
+  document.getElementById('conditionsList').innerHTML = `<b>${condition}</b>`;
+  document.getElementById('primaryCondText').textContent = condition;
+  document.getElementById('primaryConditionBox').style.display = "block";
+
+  const utter = new SpeechSynthesisUtterance(
+    `Gender ${gender}. Pregnancy ${preg}. BMP ${bmp}. Blood group ${blood}. Pulse ${pulse}. Pressure ${pressSys}/${pressDia}. Stress ${stress}. Diabetes risk ${diabRisk} percent. Heart attack risk ${heartRisk} percent. SpO2 ${spo2} percent. Hemoglobin ${hemoglobin}. W B C count ${wbc}. R B C count ${rbc}. Blood cancer risk ${cancerRisk} percent. Observation ${observation}. Suggestion ${suggestion}.`
+  );
+  utter.rate = 1;
+  speechSynthesis.speak(utter);
+
+  mergeRecommendedValues();
+}
+
+// Recommended normal values
+const recommendedValues = {
+  pulse: {male:"60-100 bpm", female:"60-100 bpm"},
+  press: {male:"90/60 - 120/80 mmHg", female:"90/60 - 120/80 mmHg"},
+  spo2: {male:"95-100%", female:"95-100%"},
+  hemoglobin: {male:"13.5-17.5 g/dL", female:"12.0-16.0 g/dL"},
+  wbc: {male:"4500-11000 /µL", female:"4500-11000 /µL"},
+  rbc: {male:"4.7-6.1 million/µL", female:"4.2-5.4 million/µL"},
+  bmp: {male:"70-99 mg/dL", female:"70-99 mg/dL"},
+  stress: {male:"Low-Moderate", female:"Low-Moderate"},
+  diabetesRisk: {male:"<7%", female:"<7%"},
+  heartRisk: {male:"<5%", female:"<5%"},
+  cancerRisk: {male:"<1%", female:"<1%"}
+};
+
+function mergeRecommendedValues() {
+  const genderEl = document.getElementById('genderVal').textContent.toLowerCase();
+  const gender = (genderEl === "male" || genderEl === "female") ? genderEl : "male";
+
+  const mapFull = [
+    {id:'pulseVal', key:'pulse'},
+    {id:'pressVal', key:'press'},
+    {id:'spo2Val', key:'spo2'},
+    {id:'hemoVal', key:'hemoglobin'},
+    {id:'wbcVal', key:'wbc'},
+    {id:'rbcVal', key:'rbc'},
+    {id:'bmpVal', key:'bmp'},
+    {id:'stressVal', key:'stress'},
+    {id:'diabVal', key:'diabetesRisk'},
+    {id:'heartVal', key:'heartRisk'},
+    {id:'cancerVal', key:'cancerRisk'}
+  ];
+
+  mapFull.forEach(item => {
+    const el = document.getElementById(item.id);
+    if(el && !el.querySelector('.normal-range')) {
+      el.innerHTML += `<span class="normal-range">Normal: ${recommendedValues[item.key][gender]}</span>`;
     }
-  </script>
+  });
 
+  const mapQuick = [
+    {id:'qPulse', key:'pulse'},
+    {id:'qPress', key:'press'},
+    {id:'qSpo2', key:'spo2'},
+    {id:'qHemo', key:'hemoglobin'},
+    {id:'qWbc', key:'wbc'},
+    {id:'qRbc', key:'rbc'},
+    {id:'qBmp', key:'bmp'},
+    {id:'qStress', key:'stress'},
+    {id:'qDiab', key:'diabetesRisk'},
+    {id:'qHeart', key:'heartRisk'},
+    {id:'qCancer', key:'cancerRisk'}
+  ];
+
+  mapQuick.forEach(item => {
+    const el = document.getElementById(item.id);
+    if(el && !el.querySelector('.normal-range')) {
+      el.innerHTML += ` <span class="normal-range">(${recommendedValues[item.key][gender]})</span>`;
+    }
+  });
+}
+</script>
 </body>
 </html>
-
